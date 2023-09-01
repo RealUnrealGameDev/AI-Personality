@@ -85,7 +85,6 @@ def process_user_input(text):
 
     history_tokens = m_tokenize(model, input_history.encode())
     print("\n\n", end="", flush=True)
-    print("3")
     m_eval(model, history_tokens, False, "Build context...")
 
 
