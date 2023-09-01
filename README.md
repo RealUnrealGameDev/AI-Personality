@@ -3,6 +3,11 @@
 This AI uses the Llama algorithm to give a personality to the GGML models.
 There is a config file that we can setup to describe the personality of the AI as well as changing some of the variables for the AI.
 
+
+
+
+
+
 # How to Setup
 Step 1: Clone the Repo into a folder
 
