@@ -10,7 +10,6 @@ try:
     from config import *
 except ImportError:
     print("Cannot find config.py")
-    print('Make sure that you copy "config.example.py" to "config.py"')
     exit(1)
 
 model = llama_cpp.Llama(
