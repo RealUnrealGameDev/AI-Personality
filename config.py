@@ -1,6 +1,6 @@
 import random
 
-MODEL_PATH = "D:\\Work\\AI Freind\\Components\\Character AI\\llama-persona\\Models\\codeup-llama-2-13b-chat-hf.ggmlv3.q2_K.bin"
+MODEL_PATH = "MODEL PATH HERE!"
 N_THREADS = 12
 TOP_K = 80
 TOP_P = 1
