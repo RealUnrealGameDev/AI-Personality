@@ -1,6 +1,7 @@
 # AI-With-Personality
 
 This AI uses the Llama algorithm to give a personality to the GGML models.
+The AI has the ability to use basic emojis as well as text to interact with the User.
 There is a config file that we can setup to describe the personality of the AI as well as changing some of the variables for the AI.
 
 # How to Setup
