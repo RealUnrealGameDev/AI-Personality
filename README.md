@@ -6,13 +6,15 @@ There is a config file that we can setup to describe the personality of the AI a
 # How to Setup
 Step 1: Clone the Repo into a folder
 
-Step 2: Install the `requirements.txt` with `pip install requirements.txt`
+Step 2: Download The Model from Google Drive: https://drive.google.com/drive/folders/15vE8kIPO6qF1M0kLiallWwUZSG4BMaRS?usp=drive_link
 
-Step 3: Open the config file and change `PERSONA_NAME` to the name of the personality
+Step 3: Install the `requirements.txt` with `pip install requirements.txt`
 
-Step 4: Change `PERSONA_DESC` to the description of the personality in second person
+Step 4: Open the config file and change `PERSONA_NAME` to the name of the personality
 
-Step 5: Run `python app.py`
+Step 5: Change `PERSONA_DESC` to the description of the personality in second person
+
+Step 6: Run `python app.py`
 
 # Examples
 
