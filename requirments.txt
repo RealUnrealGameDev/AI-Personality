@@ -1,3 +1,5 @@
 llama-cpp-python
 sys
 random
+threading
+socket
