@@ -4,12 +4,26 @@ import re
 import signal
 import imp
 from alive_progress import alive_bar
+import socket
+import threading
+import time
+
+HEADER = 2000000000
+PORT = 5050
+SERVER = #SERVER IP
+ADDR = (SERVER, PORT)
+FORMAT = "utf-8"
+DISCONNECT_MESSAGE = "!DISCONNECT"
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind(ADDR)
 
 try:
     imp.find_module("config")
     from config import *
 except ImportError:
     print("Cannot find config.py")
+    print('Make sure that you copy "config.example.py" to "config.py"')
     exit(1)
 
 model = llama_cpp.Llama(
@@ -34,18 +48,48 @@ def init():
     global state_after_init_prompt
     print("")
     m_eval(model, m_tokenize(model, PROMPT_INIT, True), False, "Starting up...")
+    print("[SERVER STARTED]")
+    server.listen()
+    print(f"[LISTENING] {SERVER}")
 
     try:
         while True:
+            conn, addr = server.accept()
+            thread = threading.Thread(target=handle_client, args=(conn, addr))
+            thread.start()
+            print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
             print("\n> ", end="", flush=True)
-            input_txt = input()
-            process_user_input(input_txt)
 
     except KeyboardInterrupt:
         pass
 
 
-def process_user_input(text):
+###########################################
+
+
+def handle_client(conn, addr):
+    print(f"[NEW CONNECTION] from {addr}")
+
+    connected = True
+    while connected:
+        msg_length = conn.recv(HEADER).decode(FORMAT)
+        if msg_length:
+            msg_length = int(msg_length)
+            msg = conn.recv(msg_length).decode(FORMAT)
+            if msg == DISCONNECT_MESSAGE:
+                connected = False
+            print(f"[{addr}] {msg}")
+            input_txt = msg
+            process_user_input(input_txt, conn, addr)
+            # print(response_added_bytes.decode(errors="ignore"), end="", flush=True)
+
+    conn.close()
+
+
+###########################################
+
+
+def process_user_input(text, conn, addr):
     global state_after_init_prompt, is_received_stop_signal
     is_received_stop_signal = False
 
@@ -74,11 +118,15 @@ def process_user_input(text):
             sys.stdout.write("\033[K")  # Clear to the end of line
             print(response_txt.split("\n")[-1], end="", flush=True)
             should_stop = True
-        print(response_added_bytes.decode(errors="ignore"), end="", flush=True)
+
+        response = response_added_bytes.decode(errors="ignore")
+        print(response, end="", flush=True)
         if should_stop:
             break
+        conn.send(response.encode(FORMAT))
 
     # build context for next message
+    end = "-"
     input_ins_truncated = " ".join(text.split(" ")[:N_TOKENS_KEEP_INS])
     input_res_truncated = " ".join(response_txt.split(" ")[:N_TOKENS_KEEP_RES])
     input_history = f"\n\n### Instruction:\n\n{input_ins_truncated}\n\n### Response:\n\n{input_res_truncated}"
@@ -86,9 +134,7 @@ def process_user_input(text):
     history_tokens = m_tokenize(model, input_history.encode())
     print("\n\n", end="", flush=True)
     m_eval(model, history_tokens, False, "Build context...")
-
-
-###########################################
+    conn.send(end.encode(FORMAT))
 
 
 def m_generate(model: llama_cpp.Llama, tokens, top_k, top_p, temp, repeat_penalty):
@@ -157,3 +203,4 @@ def m_eval(model: llama_cpp.Llama, tokens, stop_on_signal=False, show_progress=F
 
 
 init()
+
