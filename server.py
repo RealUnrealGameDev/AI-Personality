@@ -10,7 +10,7 @@ import time
 
 HEADER = 2000000000
 PORT = 5050
-SERVER = #SERVER IP
+SERVER = "192.168.0.104"  # socket.gethostbyaddr("13.41.72.251")[0]
 ADDR = (SERVER, PORT)
 FORMAT = "utf-8"
 DISCONNECT_MESSAGE = "!DISCONNECT"
@@ -203,4 +203,3 @@ def m_eval(model: llama_cpp.Llama, tokens, stop_on_signal=False, show_progress=F
 
 
 init()
-

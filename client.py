@@ -4,7 +4,7 @@ HEADER = 2000000000
 PORT = 5050
 FORMAT = "utf-8"
 DISCONNECT_MESSAGE = "!DISCONNECT"
-SERVER = #SERVER IP 
+SERVER = "192.168.0.104"  # "ec2-13-41-72-251.eu-west-2.compute.amazonaws.com"
 ADDR = (SERVER, PORT)
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

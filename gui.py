@@ -5,9 +5,7 @@ import threading
 
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(
-    r"D:\Work\AI Freind\Components\GUI\build\assets\frame0"
-)
+ASSETS_PATH = OUTPUT_PATH / Path(r"D:\Work\AI Freind\Components\GUI\assets\frame0")
 
 
 def relative_to_assets(path: str) -> Path:
