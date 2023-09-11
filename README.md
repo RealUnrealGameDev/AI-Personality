@@ -22,7 +22,7 @@ Step 7: Open the `client.py` file the change the `SERVER` variable to the public
 
 Step 8: Run `server.py`
 
-Step 9: Run `client.py` and Enjoy!
+Step 9: Run `client.py` or `gui.py`(EXPERIMENTAL) and Enjoy!
 # Examples
 Server:
 
